@@ -1,0 +1,8 @@
+#!/bin/sh
+
+r=$(docker-compose ps | grep Up -wc) 
+if [ "$r" -eq '1' ]
+then
+    docker exec -it rclone rclone $1
+fi
+
