@@ -15,6 +15,12 @@ services:
     hostname: rclone
     container_name: rclone
     image: rclone/rclone:latest
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - "apparmor:unconfined"
     ports:
        - 9321:5572
     volumes:
