@@ -22,14 +22,14 @@ services:
     security_opt:
       - "apparmor:unconfined"
     ports:
-       - 9321:5572
+       - 5572:5572
     volumes:
        - './config:/config/rclone'
        - './data:/data'
     environment:
-       - 'rc-addr=127.0.0.1:5572'
        - 'TZ=Europe/Amsterdam'
-    entrypoint: /bin/sh -c 'while :; do :; done & kill -STOP $$! && wait $$!'
+#    entrypoint: /bin/sh -c 'while :; do :; done & kill -STOP $$! && wait $$!'
+    command: rcd --rc-web-gui --rc-addr rclone:5572 --rc-pass MYPASSWoRD
     networks:
       - net
     restart: unless-stopped
