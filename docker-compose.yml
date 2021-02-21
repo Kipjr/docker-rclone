@@ -1,0 +1,30 @@
+version: "3.8"
+
+networks:
+  net:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 192.168.8.112/30 #192.168.8.113 - 192.168.8.114 (bc:115)
+    driver_opts:
+     com.docker.network.bridge.name: rclone_net
+
+services:
+  rclone:
+    hostname: rclone
+    container_name: rclone
+    image: rclone/rclone:latest
+    ports:
+       - 9321:5572
+    volumes:
+       - './config:/config/rclone'
+       - './data:/data'
+    environment:
+       - 'rc-addr=127.0.0.1:5572'
+       - 'TZ=Europe/Amsterdam'
+    entrypoint: /bin/sh -c 'while :; do :; done & kill -STOP $$! && wait $$!'
+    networks:
+      - net
+    restart: unless-stopped
+
